@@ -2,12 +2,15 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+
+from backend.social_backend.permissions import IsCreatorOrReadOnly
 from .models import Post, Reaction, Comment, UserActivity
 from .serializers import PostSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
+    permission_classes = [IsCreatorOrReadOnly]
 
 class ToggleReactionView(APIView):
     permission_classes = [IsAuthenticated]
