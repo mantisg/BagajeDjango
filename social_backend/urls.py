@@ -7,4 +7,5 @@ router.register(r'posts', PostViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('posts/<int:post_id>/react/', ToggleReactionView.as_view(), name='toggle-reaction')
 ]
