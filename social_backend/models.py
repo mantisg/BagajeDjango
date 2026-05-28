@@ -4,13 +4,19 @@ from PIL import Image
 from io import BytesIO
 from django.core.files import File
 from django.conf import settings
+from .validators import validate_video_extension, validate_video_size, validate_video_duration
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
     content = models.TextField()
     image = models.ImageField(upload_to='posts/images/', blank=True, null=True)
-    video = models.FileField(upload_to='posts/videos/', blank=True, null=True)
+    video = models.FileField(
+        upload_to='posts/videos/',
+        blank=True,
+        null=True,
+        validators=[validate_video_extension, validate_video_size, validate_video_duration]
+    )
 
     is_published = models.BooleanField(default=True)
 
