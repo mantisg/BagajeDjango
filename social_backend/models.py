@@ -5,10 +5,11 @@ from io import BytesIO
 from django.core.files import File
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
     content = models.TextField()
-    media = models.FileField(upload_to='posts/', blank=True, null=True)
+    image = models.ImageField(upload_to='posts/images/', blank=True, null=True)
+    video = models.FileField(upload_to='posts/videos/', blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -16,11 +17,11 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-        if self.media:
-            img = Image.open(self.media)
+        if self.image:
+            img = Image.open(self.image)
             max_size = (800, 800)
             img.thumbnail(max_size, Image.ANTIALIAS)
-            img.save(self.media.path, quality=85, optimize=True)
+            img.save(self.image.path, quality=85, optimize=True)
 
     def __str__(self):
         return self.title
