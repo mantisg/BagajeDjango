@@ -26,7 +26,7 @@ class Post(models.Model):
         if self.image:
             img = Image.open(self.image)
             max_size = (800, 800)
-            img.thumbnail(max_size, Image.ANTIALIAS)
+            img.thumbnail(max_size, Image.RESAMPLING.LANCZOS)
             img.save(self.image.path, quality=85, optimize=True)
 
     def __str__(self):
