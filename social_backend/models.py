@@ -73,3 +73,10 @@ class Reaction(models.Model):
 
     class Meta:
         unique_together = ('post', 'user')  # Ensure a user can react only once per post
+
+class SiteSettings(models.Model):
+    site_name = models.CharField(max_length=255, default='Bagaje de Aleyda')
+    homepage_message = models.TextField(blank=True)
+    allow_registrations = models.BooleanField(default=True)
+    maintenance_mode = models.BooleanField(default=False)
+    creator = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
