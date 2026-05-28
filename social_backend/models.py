@@ -24,9 +24,9 @@ class Post(models.Model):
         super().save(*args, **kwargs)
 
         if self.image:
-            img = Image.open(self.image)
+            img = Image.open(self.image.path)
             max_size = (800, 800)
-            img.thumbnail(max_size, Image.RESAMPLING.LANCZOS)
+            img.thumbnail(max_size, Image.Resampling.LANCZOS)
             img.save(self.image.path, quality=85, optimize=True)
 
     def __str__(self):
