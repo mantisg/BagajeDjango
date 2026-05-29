@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-cp-qzlk9y62btdwcs(j8_2h7(poq!b%hp6e%36y8luqu=r!j@8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'bagajedealeyda.com',
+]
 
 AUTH_USER_MODEL = 'social_backend.User'
 MEDIA_URL = '/media/'
