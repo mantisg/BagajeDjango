@@ -41,8 +41,10 @@ class Post(models.Model):
         return self.title
     
 class User(AbstractUser):
+    name = models.CharField(max_length=255)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     email = models.EmailField(unique=True)
+    slug = models.SlugField(unique=True, max_length=255, blank=True)
     is_creator = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
