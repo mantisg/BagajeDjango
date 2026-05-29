@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
 from PIL import Image
 from io import BytesIO
 from django.core.files import File
@@ -18,6 +19,7 @@ class Post(models.Model):
         validators=[validate_video_extension, validate_video_size, validate_video_duration]
     )
 
+    slug = models.SlugField(unique=True, max_length=255, blank=True)
     is_published = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
