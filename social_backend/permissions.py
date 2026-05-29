@@ -1,4 +1,4 @@
-from rest_framework import BasePermission
+from rest_framework.permissions import BasePermission
 
 class IsCreator(BasePermission):
     def has_permission(self, request, view):
