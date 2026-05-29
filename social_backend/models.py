@@ -80,6 +80,16 @@ class Reaction(models.Model):
     class Meta:
         unique_together = ('post', 'user')  # Ensure a user can react only once per post
 
+class SavedPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'post')
+
 class SiteSettings(models.Model):
     site_name = models.CharField(max_length=255, default='Bagaje de Aleyda')
     homepage_message = models.TextField(blank=True)
