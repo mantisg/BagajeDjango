@@ -23,7 +23,12 @@ def validate_video_size(value):
         )
     
 def validate_video_duration(value):
-    video = VideoFileClip(value.temporary_file_path())
+    try:
+        video = VideoFileClip(value.temporary_file_path())
+    except Exception as e:
+        raise ValidationError(
+            'Error occurred while processing the video file.'
+        )
 
     duration = video.duration
 
