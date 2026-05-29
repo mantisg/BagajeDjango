@@ -99,6 +99,9 @@ class Reaction(models.Model):
     class Meta:
         unique_together = ('post', 'user')  # Ensure a user can react only once per post
 
+    def __str__(self):
+        return f'{self.user.username} reacted {self.reaction_type}'
+
 class SavedPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
