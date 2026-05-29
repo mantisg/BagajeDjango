@@ -11,6 +11,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
     permission_classes = [IsCreatorOrReadOnly]
+    lookup_field = 'slug'
 
 class ToggleReactionView(APIView):
     permission_classes = [IsAuthenticated]
