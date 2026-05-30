@@ -1,11 +1,23 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import PostViewSet, ToggleReactionView
-
-router = DefaultRouter()
-router.register(r'posts', PostViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('posts/<int:post_id>/react/', ToggleReactionView.as_view(), name='toggle-reaction')
+    path(
+        'auth/',
+        include('social_backend.urls.auth_urls')
+    ),
+
+    path(
+        '',
+        include('social_backend.urls.post_urls')
+    ),
+
+    path(
+        'comments/',
+        include('social_backend.urls.comment_urls')
+    ),
+
+    path(
+        'users/',
+        include('social_backend.urls.user_urls')
+    ),
 ]
