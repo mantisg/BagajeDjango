@@ -9,4 +9,4 @@ router.register(
     basename='post'
 )
 
-urlspatterns = router.urls
+urlpatterns = router.urls
