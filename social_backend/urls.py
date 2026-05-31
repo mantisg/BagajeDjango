@@ -20,5 +20,8 @@ urlpatterns = [
         'users/',
         include('social_backend.api_urls.user_urls')
     ),
-    path('saved-posts/', include('social_backend.api_urls.saved_post_urls')),
+    path(
+        '',
+        include('social_backend.api_urls.saved_post_urls')
+    ),
 ]
