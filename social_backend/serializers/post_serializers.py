@@ -33,6 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
             'is_published',
             'reaction_count',
             'comment_count',
+            'is_saved',
             'created_at',
             'updated_at',
         ]
