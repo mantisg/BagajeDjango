@@ -1,13 +1,49 @@
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
 from ..models import Post
 from ..permissions import IsCreatorOrReadOnly
 from ..serializers.post_serializers import PostSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('-created_at')
     serializer_class = PostSerializer
     permission_classes = [IsCreatorOrReadOnly]
-    lookup_field = 'slug'
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    filter_backends = [
+        DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
+    ]
+
+    filterset_fields = [
+        'is_published',
+    ]
+
+    search_fields = [
+        'title',
+        'content',
+    ]
+
+    ordering_fields = [
+        'created_at',
+        'updated_at',
+    ]
+
+    def get_queryset(self):
+
+        queryset = Post.objects.select_related(
+            'author'
+        )
+
+        author = self.request.query_params.get(
+            'author'
+        )
+
+        if author:
+            queryset = queryset.filter(
+                author__slug=author
+            )
+
+        return queryset.order_by(
+            '-created_at'
+        )
