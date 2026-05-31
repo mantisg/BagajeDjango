@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Post
+from ..models import Post, SavedPost
 
 class PostSerializer(serializers.ModelSerializer):
 
@@ -14,7 +14,7 @@ class PostSerializer(serializers.ModelSerializer):
     )
 
     reaction_count = serializers.SerializerMethodField()
-
+    is_saved = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -49,3 +49,17 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_comment_count(self, obj):
         return obj.comments.count()
+    
+    def get_is_saved(self, obj):
+        request = self.context.get('request')
+
+        if (
+            request
+            and request.user.is_authenticated
+        ):
+            return SavedPost.objects.filter(
+                user=request.user,
+                post=obj
+            ).exists()
+
+        return False
