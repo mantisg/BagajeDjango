@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from ..models import Post, Comment
 from ..serializers.comment_serializers import CommentSerializer
 from ..permissions import IsCommentOwnerOrCreator
+from ..utils import log_activity
 
 
 class PostCommentListCreateView(generics.ListCreateAPIView):
@@ -27,6 +28,12 @@ class PostCommentListCreateView(generics.ListCreateAPIView):
         serializer.save(
             author=self.request.user,
             post=post
+        )
+
+        log_activity(
+            self.request.user,
+            post,
+            'comment'
         )
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
