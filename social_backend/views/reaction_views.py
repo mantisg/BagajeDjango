@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from backend.social_backend.permissions import IsCreatorOrReadOnly
+from backend.social_backend.utils import log_activity
 from ..models import Reaction, Post
 
 class ToggleReactionView(APIView):
@@ -25,6 +26,8 @@ class ToggleReactionView(APIView):
                 user=request.user,
                 reaction_type=reaction_type
             )
+
+            log_activity(request.user, post, 'reaction')
 
             return Response({
                 'status': 'created',
