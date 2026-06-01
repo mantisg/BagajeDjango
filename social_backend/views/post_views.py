@@ -30,7 +30,6 @@ class PostViewSet(viewsets.ModelViewSet):
     ]
 
     def get_queryset(self):
-
         queryset = Post.objects.select_related(
             'author'
         )
@@ -47,3 +46,22 @@ class PostViewSet(viewsets.ModelViewSet):
         return queryset.order_by(
             '-created_at'
         )
+    
+    def retrieve(self, request, *args, **kwargs):
+        response = super().retrieve(
+            request,
+            *args,
+            **kwargs
+        )
+
+        if request.user.is_authenticated:
+
+            post = self.get_object()
+
+            log_activity(
+                request.user,
+                post,
+                'view'
+            )
+
+        return response
