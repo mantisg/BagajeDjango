@@ -24,4 +24,8 @@ urlpatterns = [
         '',
         include('social_backend.api_urls.saved_post_urls')
     ),
+    path(
+        '',
+        include('social_backend.api_urls.activity_urls')
+    ),
 ]
